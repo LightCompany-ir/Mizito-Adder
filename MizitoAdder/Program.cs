@@ -169,6 +169,93 @@ if (answer != "Y" || answer != "y")
 
 ShowMessage.Clear();
 
+#region ImportDTO
+ShowMessage.Warning("Converting Data To ImportDTO ...");
+IEnumerable<ImportDTO> SrcImport = new List<ImportDTO>();
+IEnumerable<int> ImportError = new List<int>();
+IEnumerable<int> ImportWarning = new List<int>();
+try
+{
+    using var exlfile = new XLWorkbook(@"ImportTemplate.xlsx");
+    var exlsheet = exlfile.Worksheet(1);
+    var range = exlsheet.RangeUsed();
+    if (range == null)
+    {
+        Console.WriteLine("شیت خالی است.");
+        throw new ArgumentNullException("range", "The worksheet is empty.");
+    }
+
+    foreach (var row in range.Rows())
+    {
+        if (row.RowNumber() == 1) continue; // Skip header row
+
+        try
+        {
+            ImportDTO ImportData = new ImportDTO
+            {
+                CustomerName = row.Cell("A").GetValue<string>(),
+                ShopName = row.Cell("B").GetValue<string>(),
+                Telephone = row.Cell("C").GetValue<string>(),
+                Phone = row.Cell("D").GetValue<string>(),
+                Address = row.Cell("E").GetValue<string>(),
+                Info = row.Cell("F").GetValue<string>(),
+                Website = row.Cell("G").GetValue<string>(),
+                Email = row.Cell("H").GetValue<string>(),
+                PostalCode = row.Cell("I").GetValue<string>(),
+                FaxNumber = row.Cell("J").GetValue<string>(),
+                EconomicCode = row.Cell("K").GetValue<string>(),
+                NationalID = row.Cell("L").GetValue<string>(),
+                Tags = row.Cell("M").GetValue<string>(),
+                RepresentativeName = row.Cell("N").GetValue<string>(),
+                RepresentativePosition = row.Cell("O").GetValue<string>(),
+                RepresentativeEmail = row.Cell("P").GetValue<string>(),
+                RepresentativePhone = row.Cell("Q").GetValue<string>(),
+                RepresentativeTelephone = row.Cell("R").GetValue<string>()
+            };
+
+            if (string.IsNullOrEmpty(ImportData.Phone))
+            {
+                ((List<int>)ImportWarning).Add(row.RowNumber());
+            }
+            if (ImportData.Phone.Length != 10)
+            {
+                ((List<int>)ImportWarning).Add(row.RowNumber());
+            }
+
+            //Validation Data
+            if (string.IsNullOrEmpty(ImportData.CustomerName) && string.IsNullOrEmpty(ImportData.ShopName))
+            {
+                ((List<int>)ImportError).Add(row.RowNumber());
+                ShowMessage.Error("Error In Row " + row.RowNumber().ToString() + " : Name and ShopName are required.");
+                continue;
+            }
+            if (string.IsNullOrEmpty(ImportData.Phone) && string.IsNullOrEmpty(ImportData.Telephone))
+            {
+                ((List<int>)ImportError).Add(row.RowNumber());
+                ShowMessage.Error("Error In Row " + row.RowNumber().ToString() + " : Phone or Telephone is required.");
+                continue;
+            }
+
+            //Add Data To List
+            ((List<ImportDTO>)SrcImport).Add(ImportData);
+            ShowMessage.Success("ROW  " + row.Cell(1).GetValue<int>().ToString() + "  Is Added");
+        }
+        catch (Exception dataEx)
+        {
+            ((List<int>)ImportError).Add(row.RowNumber());
+            ShowMessage.Error("Error In Row " + row.RowNumber().ToString() + " : " + dataEx.Message);
+        }
+    }
+}
+catch (Exception ex)
+{
+    ShowMessage.Error(ex.Message);
+    Console.WriteLine("\n");
+    ShowMessage.Error("Can not Read Data !\nPress Any Key To Exit ...");
+    Console.ReadLine();
+    Environment.Exit(0);
+}
+#endregion
 
 //Exit
 ShowMessage.Message("Press Any Key To Exit ...");
