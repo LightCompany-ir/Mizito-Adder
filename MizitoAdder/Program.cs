@@ -429,8 +429,9 @@ if (answer == "Y" || answer == "y")
     //Fill Export Data
     using var wb = new XLWorkbook();
     var ws = wb.Worksheets.Add("Sheet1");
+    ws.RightToLeft = true;
+    ws.Cells().Style.NumberFormat.Format = "@";
     //Heders
-    //typeof(ImportDTO).GetProperty("CustomerName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
     ws.Cell("A1").Value = typeof(ImportDTO).GetProperty("CustomerName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? "Not Found";
     ws.Cell("B1").Value = typeof(ImportDTO).GetProperty("ShopName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
     ws.Cell("C1").Value = typeof(ImportDTO).GetProperty("Telephone")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";

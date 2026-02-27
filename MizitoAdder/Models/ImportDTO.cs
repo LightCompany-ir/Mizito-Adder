@@ -14,7 +14,7 @@ namespace MizitoAdder.Models
         public string? ShopName { get; set; }
         [DisplayName("تلفن ثابت")]
         public string? Telephone { get; set; }
-        [DisplayName("تلفن همراه")]
+        [DisplayName("شماره همراه")]
         public required string Phone { get; set; }
         [DisplayName("آدرس")]
         public string? Address { get; set; }
@@ -22,7 +22,7 @@ namespace MizitoAdder.Models
         public string? Info { get; set; }
         [DisplayName("آدرس سایت")]
         public string? Website { get; set; }
-        [DisplayName("ایمیل")]
+        [DisplayName("آدرس ایمیل")]
         public string? Email { get; set; }
         [DisplayName("کد پستی")]
         public string? PostalCode { get; set; }
