@@ -1,6 +1,9 @@
 ﻿using ClosedXML.Excel;
 using MizitoAdder;
 using MizitoAdder.Models;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 ShowMessage.Welcome();
 ShowMessage.Waiter(1);
@@ -427,24 +430,25 @@ if (answer == "Y" || answer == "y")
     using var wb = new XLWorkbook();
     var ws = wb.Worksheets.Add("Sheet1");
     //Heders
-    ws.Cell("A1").Value = "CustomerName";
-    ws.Cell("B1").Value = "ShopName";
-    ws.Cell("C1").Value = "Telephone";
-    ws.Cell("D1").Value = "Phone";
-    ws.Cell("E1").Value = "Address";
-    ws.Cell("F1").Value = "Info";
-    ws.Cell("G1").Value = "Website";
-    ws.Cell("H1").Value = "Email";
-    ws.Cell("I1").Value = "PostalCode";
-    ws.Cell("J1").Value = "FaxNumber";
-    ws.Cell("K1").Value = "EconomicCode";
-    ws.Cell("L1").Value = "NationalID";
-    ws.Cell("M1").Value = "Tags";
-    ws.Cell("N1").Value = "RepresentativeName";
-    ws.Cell("O1").Value = "RepresentativePosition";
-    ws.Cell("P1").Value = "RepresentativeEmail";
-    ws.Cell("Q1").Value = "RepresentativePhone";
-    ws.Cell("R1").Value = "RepresentativeTelephone";
+    //typeof(ImportDTO).GetProperty("CustomerName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("A1").Value = typeof(ImportDTO).GetProperty("CustomerName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? "Not Found";
+    ws.Cell("B1").Value = typeof(ImportDTO).GetProperty("ShopName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("C1").Value = typeof(ImportDTO).GetProperty("Telephone")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("D1").Value = typeof(ImportDTO).GetProperty("Phone")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("E1").Value = typeof(ImportDTO).GetProperty("Address")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("F1").Value = typeof(ImportDTO).GetProperty("Info")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("G1").Value = typeof(ImportDTO).GetProperty("Website")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("H1").Value = typeof(ImportDTO).GetProperty("Email")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("I1").Value = typeof(ImportDTO).GetProperty("PostalCode")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("J1").Value = typeof(ImportDTO).GetProperty("FaxNumber")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("K1").Value = typeof(ImportDTO).GetProperty("EconomicCode")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("L1").Value = typeof(ImportDTO).GetProperty("NationalID")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("M1").Value = typeof(ImportDTO).GetProperty("Tags")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("N1").Value = typeof(ImportDTO).GetProperty("RepresentativeName")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("O1").Value = typeof(ImportDTO).GetProperty("RepresentativePosition")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("P1").Value = typeof(ImportDTO).GetProperty("RepresentativeEmail")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("Q1").Value = typeof(ImportDTO).GetProperty("RepresentativePhone")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
+    ws.Cell("R1").Value = typeof(ImportDTO).GetProperty("RepresentativeTelephone")?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName?? "Not Found";
 
     int rowid = 2;
     foreach (ImportDTO item in SrcImport)
