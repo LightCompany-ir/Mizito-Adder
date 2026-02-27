@@ -7,6 +7,7 @@ namespace MizitoAdder.Models
 {
     public class ImportDTO
     {
+        public required int ImportId { get; set; }
         [DisplayName("نام مشتری")]
         public required string CustomerName { get; set; }
         [DisplayName("نام تجاری مشتری")]

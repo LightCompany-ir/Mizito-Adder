@@ -29,6 +29,7 @@ namespace MizitoAdder
         public static void Waiter(int millisec = 3000)
         {
             Thread.Sleep(millisec);
+            Application.DoEvents();
         }
 
         public static void Error(string message)
